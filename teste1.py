@@ -1,5 +1,6 @@
 import streamlit as st
 import errodocalulo
+import sympy as sy
 
 
 # f = "V = (((B+b)*h)/2)/T"

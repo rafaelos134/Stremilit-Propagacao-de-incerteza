@@ -1,7 +1,9 @@
+import pandas as pd
 import sympy as sy
 from math import *
 import re
 import random
+import streamlit as st
 
 class trata_dados:
     def __init__(self,variavel_para_tratar = "lixo",separacao=' '):
