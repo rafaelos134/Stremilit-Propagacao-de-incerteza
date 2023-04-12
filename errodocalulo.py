@@ -32,8 +32,7 @@ class trata_dados:
         if letra_aletorio in separados:
             while letra_aletorio in separados:
                 letra_aletorio = random.choice('abcdefghjklmnopqrstuvwxyz')
-                print("entrou")
-
+                
         return (letra_aletorio)
 
 
@@ -76,7 +75,9 @@ class monta_derivadas:
         
         raiz = "(b)**(1/2)"
         derivada_antes = self.sympify(raiz)
+        
 
+       
         edicao = derivada_antes[:6] + edicao + derivada_antes[7:]
 
         edicao = "\Delta {} = {}".format(f,edicao)
@@ -92,9 +93,6 @@ class monta_derivadas:
     def derivadas_teorico(self,f,separados):
         derivada_antes = ["( partial_{} / partial_{})* (Delta_{})**2".format(f,separados[x],separados[x]) for x in range(len(separados)) ]
         derivada_antes = [self.sympify(x) for x in derivada_antes]
-        # derivada_antes = "+".join(derivada_antes)
-        # derivada_antes = self.raiz(derivada_antes)
-        # derivada_antes = self.sympify(derivada_antes)
         derivada_antes = self.trata_str_latex(derivada_antes,f)
         return derivada_antes
         
@@ -107,6 +105,57 @@ class monta_derivadas:
         derivada_pronta = self.trata_str_latex(derivada_pronta,funcao_original)
 
         return derivada_pronta
+    
+    def derivada_numerica(self,biblioteca_de_erro,derivadapronta,separados):
+        
+
+
+        
+    
+        p = 0
+        subst = []
+       
+        cont = 0
+        i = 0
+
+    
+        valor_separado = list(biblioteca_de_erro.keys())
+        
+        for y in derivadapronta:
+                
+                for x in separados:
+                    if (p <= 0):
+                        subst.append(y.subs(x,valor_separado[p]))
+                    else:
+                        subst[i] = subst[i].subs(x,valor_separado[p])
+                    p+=1
+                i+=1   
+                p=0
+
+        i = 0
+        
+        errosseparados = list(biblioteca_de_erro.values())
+        for x in errosseparados:
+            errosseparados[i] = eval(errosseparados[i])
+            i+=1
+
+        i = 0
+        h = []
+        
+        for x in subst:
+            
+            h.append( (((subst[i]))**2 * (errosseparados[i])**2))
+            
+            i+=1
+        
+        total = 0.0
+
+        for x in h:
+            total += x 
+
+
+        
+        return  (total)**(1/2)
 
 
 
@@ -114,10 +163,8 @@ class monta_derivadas:
 
 def calculadoraerro(f = False,variaveis_envolvidas = False,dados_dos_erros = False):
    
-    if dados_dos_erros == False:
-        pass
-    else:
-        dados_erros = trata_dados(dados_dos_erros)
+    
+    dados_erros = trata_dados(dados_dos_erros)
 
 
     funcao_separada = trata_dados(f,'=')
@@ -133,8 +180,13 @@ def calculadoraerro(f = False,variaveis_envolvidas = False,dados_dos_erros = Fal
 
     derivada_teorica = monta_derivada.derivadas_teorico(funcao_separada.remove_espacos()[0],variaveis_serparadas.remove_espacos())
     
+    derivada_resultado = monta_derivada.derivada_numerica(dados_erros.biblioteca_de_erros(),derivada_pronta,variaveis_serparadas.remove_espacos())
 
-    return derivada_substituida , derivada_teorica
+
+
+
+    
+    return derivada_substituida , derivada_teorica, derivada_resultado
     
 
     #fazer codigo para obter somete latex 1 
@@ -143,9 +195,10 @@ def calculadoraerro(f = False,variaveis_envolvidas = False,dados_dos_erros = Fal
     # print(derivadapronta)
  
 
-f = "V = P/(2 * 3.14)"
-variaveis = "V P"
-valores_erros = "0.22+-0.04 0.44+-0.04"
+# f = "V = ((B+b)*h)/T"
+# variaveis = "B b h T"
+# valores_erros = "0.44+-0.02 0.14+-0.02 6.8+-0.2 1+-0.02"
 
+# print(calculadoraerro(f,variaveis,valores_erros))
 
 

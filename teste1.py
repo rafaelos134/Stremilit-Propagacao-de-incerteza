@@ -3,6 +3,8 @@ import errodocalulo
 import sympy as sy
 
 
+
+
 # f = "V = (((B+b)*h)/2)/T"
 # variaveis = "B b h T"
 # valores = "0.22+-0.04 0.44+-0.04 6.4+-0.4 1+-0.04"
@@ -44,6 +46,9 @@ if calcular:
     st.latex(derivada_teorica)
     code = derivada_teorica
     st.code(code, language='latex')
+
+    derivada_calculada = errodocalulo.calculadoraerro(f,variaveis,valores_erros)[2]
+    st.latex(derivada_calculada)
 
 
 
