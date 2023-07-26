@@ -109,8 +109,8 @@ class monta_derivadas:
     def derivada_numerica(self,biblioteca_de_erro,derivadapronta,separados):
         
 
-
         
+       
     
         p = 0
         subst = []
@@ -122,7 +122,7 @@ class monta_derivadas:
         valor_separado = list(biblioteca_de_erro.keys())
         
         for y in derivadapronta:
-                
+               
                 for x in separados:
                     if (p <= 0):
                         subst.append(y.subs(x,valor_separado[p]))
@@ -153,10 +153,33 @@ class monta_derivadas:
         for x in h:
             total += x 
 
+        total = (total)**(1/2)
+        
 
         
-        return  (total)**(1/2)
+        return  total
+    
+    def funcao_numericas(self,biblioteca_de_erro,derivadapronta,separados):
+       
+        funcao = sy.sympify(derivadapronta)
 
+        subst = []
+        valor_separado = list(biblioteca_de_erro.keys())
+        p=0
+        i=0
+
+        # for x in separados:
+        #     subst.append(funcao.subs(x,valor_separado[p]))
+        #     p+=1
+        
+        for x in separados:
+            if (p <= 0):
+                subst.append(funcao.subs(x,valor_separado[p]))
+            else:
+                subst[i] = subst[i].subs(x,valor_separado[p])
+            p+=1
+        i+=1
+        return subst
 
 
 
@@ -166,6 +189,37 @@ def calculadoraerro(f = False,variaveis_envolvidas = False,dados_dos_erros = Fal
     
     dados_erros = trata_dados(dados_dos_erros)
 
+
+    funcao_separada = trata_dados(f,'=')
+    derivada_pronta = trata_dados()
+    monta_derivada = monta_derivadas()
+    
+    variaveis_serparadas = trata_dados(variaveis_envolvidas)
+    
+
+    derivada_pronta = [derivada_pronta.derivada(funcao_separada.remove_espacos()[1],variaveis_serparadas.remove_espacos()[x]) for x in range(len(variaveis_serparadas.remove_espacos()))]
+    derivada_substituida = monta_derivada.derivadas_substituida(funcao_separada.remove_espacos()[0],derivada_pronta,variaveis_serparadas.remove_espacos())
+
+    derivada_teorica = monta_derivada.derivadas_teorico(funcao_separada.remove_espacos()[0],variaveis_serparadas.remove_espacos())
+    
+    derivada_resultado = monta_derivada.derivada_numerica(dados_erros.biblioteca_de_erros(),derivada_pronta,variaveis_serparadas.remove_espacos())
+
+    resultado_funcao = monta_derivada.funcao_numericas(dados_erros.biblioteca_de_erros(),funcao_separada.remove_espacos()[1],variaveis_serparadas.remove_espacos())
+
+    
+
+
+    
+    return derivada_substituida , derivada_teorica, derivada_resultado,resultado_funcao[0],funcao_separada.remove_espacos()
+    
+
+    #fazer codigo para obter somete latex 1 
+    #obter somente erro
+    #obter somente latex 2
+    # print(derivadapronta)
+
+
+def retorna_apenas_latex(f = False,variaveis_envolvidas = False):
 
     funcao_separada = trata_dados(f,'=')
     derivada_pronta = trata_dados()
@@ -180,20 +234,17 @@ def calculadoraerro(f = False,variaveis_envolvidas = False,dados_dos_erros = Fal
 
     derivada_teorica = monta_derivada.derivadas_teorico(funcao_separada.remove_espacos()[0],variaveis_serparadas.remove_espacos())
     
-    derivada_resultado = monta_derivada.derivada_numerica(dados_erros.biblioteca_de_erros(),derivada_pronta,variaveis_serparadas.remove_espacos())
-
+    
 
 
 
     
-    return derivada_substituida , derivada_teorica, derivada_resultado
-    
+    return derivada_substituida , derivada_teorica
 
-    #fazer codigo para obter somete latex 1 
-    #obter somente erro
-    #obter somente latex 2
-    # print(derivadapronta)
- 
+
+
+
+
 
 # f = "V = ((B+b)*h)/T"
 # variaveis = "B b h T"
