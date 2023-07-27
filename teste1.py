@@ -10,7 +10,7 @@ f = st.text_input('Função:')
 variaveis = st.text_input(f":red[Variavel:]")
 variaveis2 = variaveis.replace(" ","")
 
-
+#giy
 
 
 if len(variaveis2)!=0:

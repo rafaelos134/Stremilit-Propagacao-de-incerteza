@@ -4,7 +4,7 @@ from math import *
 import re
 import random
 import streamlit as st
-
+#git
 class trata_dados:
     def __init__(self,variavel_para_tratar = "lixo",separacao=' '):
        self.valor_separado = variavel_para_tratar.split(separacao)
