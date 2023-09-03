@@ -1,5 +1,5 @@
 import streamlit as st
-import errodocalulo
+import errodocalculo
 import sympy as sy
 
 
@@ -40,26 +40,26 @@ calcular  = st.button('Calular')
 
 if calcular:
     # try:
-        derivada_teorica = errodocalulo.calculadoraerro(f,variaveis,valores_erros)[1]
+        derivada_teorica = errodocalculo.calculadoraerro(f,variaveis,valores_erros)[1]
         st.subheader(':white[Equação teórica:]')
         st.latex(derivada_teorica)
         code = derivada_teorica
         st.code(code, language='latex')
 
         st.subheader(':white[Equação Substituída:]')
-        derivada_pronta = errodocalulo.calculadoraerro(f,variaveis,valores_erros)[0]
+        derivada_pronta = errodocalculo.calculadoraerro(f,variaveis,valores_erros)[0]
         st.latex(derivada_pronta)
         code = derivada_pronta
         st.code(code, language='latex')
 
         
-        derivada_valor_func = errodocalulo.calculadoraerro(f,variaveis,valores_erros)[3]
-        st.subheader(':red[Valor de {} :]'.format(errodocalulo.calculadoraerro(f,variaveis,valores_erros)[4][0]))
+        derivada_valor_func = errodocalculo.calculadoraerro(f,variaveis,valores_erros)[3]
+        st.subheader(':red[Valor de {} :]'.format(errodocalculo.calculadoraerro(f,variaveis,valores_erros)[4][0]))
         st.latex(derivada_valor_func)
 
         
         st.subheader(':red[Valor da propagação de incerteza:]')
-        derivada_calculada = errodocalulo.calculadoraerro(f,variaveis,valores_erros)[2]
+        derivada_calculada = errodocalculo.calculadoraerro(f,variaveis,valores_erros)[2]
         st.latex(derivada_calculada)
 
         
@@ -88,7 +88,7 @@ valor_apenas_teorico =  st.button("Formula Latex")
 
 if valor_apenas_teorico:
     try:
-        derivada_teorica = errodocalulo.retorna_apenas_latex(f,variaveis)[1]
+        derivada_teorica = errodocalculo.retorna_apenas_latex(f,variaveis)[1]
         
 
         st.subheader(':white[Equação teórica:]')
@@ -97,7 +97,7 @@ if valor_apenas_teorico:
         st.code(code, language='latex')
 
         st.subheader(':white[Equação Substituída:]')
-        derivada_pronta = errodocalulo.retorna_apenas_latex(f,variaveis)[0]
+        derivada_pronta = errodocalculo.retorna_apenas_latex(f,variaveis)[0]
         st.latex(derivada_pronta)
         code = derivada_pronta
         st.code(code, language='latex')
