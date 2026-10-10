@@ -79,7 +79,7 @@ npm start       # abre um servidor em http://localhost:8080
 
 ## Publicação (GitHub Pages)
 
-O workflow `.github/workflows/deploy.yml` roda os testes e publica o site a cada push na branch `master`.
+O workflow `.github/workflows/deploy.yml` roda os testes e publica o site a cada push na branch `main`.
 
 Na primeira vez, ative em **Settings → Pages → Build and deployment → Source: GitHub Actions**.
 
