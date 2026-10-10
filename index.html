@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Propagação de Incertezas</title>
+  <meta name="description" content="Calcule a propagação de incertezas de qualquer fórmula, com derivadas parciais e passo a passo.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>±</text></svg>">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script type="importmap">
+    { "imports": { "mathjs": "https://cdn.jsdelivr.net/npm/mathjs@14.0.1/+esm" } }
+  </script>
+  <script type="module" src="js/main.js"></script>
+</head>
+<body>
+  <header class="page-header">
+    <h1>Propagação de Incertezas</h1>
+    <p>Digite a fórmula, preencha as medidas e veja o resultado com o passo a passo.</p>
+  </header>
+
+  <main class="layout">
+    <section class="card" aria-labelledby="step-equation">
+      <div class="card-header">
+        <h2 id="step-equation"><span class="step">1</span> Equação</h2>
+        <div id="method-options" class="segmented" role="radiogroup" aria-label="Método de propagação"></div>
+      </div>
+      <div class="method-box">
+        <div id="method-formula" class="method-formula"></div>
+        <p id="method-hint" class="method-hint"></p>
+      </div>
+      <label class="field-label" for="equation">Fórmula (as variáveis são detectadas automaticamente)</label>
+      <input id="equation" class="equation-input" type="text" autocomplete="off" spellcheck="false"
+             placeholder="ex.: V = (B + b) * h / 2">
+      <div id="equation-preview" class="equation-preview is-empty" aria-live="polite"></div>
+
+      <p class="field-label">Exemplos</p>
+      <div id="examples" class="chips"></div>
+
+      <details class="help">
+        <summary>Como escrever a fórmula</summary>
+        <table>
+          <tbody>
+            <tr><td>Operações</td><td><code>+ - * /</code> e potência <code>^</code> (ou <code>**</code>)</td></tr>
+            <tr><td>Funções</td><td><code>sqrt(x)</code>, <code>sin</code>/<code>sen</code>, <code>cos</code>, <code>tan</code>/<code>tg</code>, <code>exp</code>, <code>log</code>/<code>ln</code> (natural), <code>log10</code>, <code>abs</code></td></tr>
+            <tr><td>Constantes</td><td><code>pi</code> e <code>e</code></td></tr>
+            <tr><td>Nomes</td><td><code>x_1</code> vira x₁; <code>theta</code>, <code>rho</code>… viram letras gregas</td></tr>
+            <tr><td>Ângulos</td><td>Em radianos</td></tr>
+          </tbody>
+        </table>
+      </details>
+    </section>
+
+    <section class="card" aria-labelledby="step-values">
+      <h2 id="step-values"><span class="step">2</span> Medidas</h2>
+      <div class="variable-header" aria-hidden="true">
+        <span>Variável</span><span>Valor</span><span></span><span>Incerteza</span>
+      </div>
+      <div id="variables" class="variables"></div>
+      <p id="variables-empty" class="muted">As variáveis da equação aparecerão aqui.</p>
+      <p class="hint">Aceita vírgula ou ponto decimal e notação científica (<code>2.2e-3</code>). Você também pode colar <code>6,8 ± 0,2</code> no campo do valor.</p>
+    </section>
+
+    <section class="card result-card" aria-labelledby="step-result">
+      <h2 id="step-result"><span class="step">3</span> Resultado</h2>
+      <p id="result-status" class="status" aria-live="polite"></p>
+
+      <div id="result-content" hidden>
+        <div id="result-final" class="result-final"></div>
+        <dl id="result-summary" class="summary"></dl>
+
+        <div class="actions">
+          <button id="copy-result" type="button" class="button">Copiar resultado</button>
+          <button id="copy-latex" type="button" class="button">Copiar LaTeX</button>
+          <button id="share-link" type="button" class="button">Copiar link</button>
+        </div>
+
+        <h3>Quanto cada variável contribui para a incerteza</h3>
+        <ul id="result-contributions" class="contributions"></ul>
+
+        <details class="steps-box" open>
+          <summary>Passo a passo</summary>
+          <ol id="result-steps" class="steps"></ol>
+        </details>
+      </div>
+
+      <button id="clear" type="button" class="button button-quiet">Limpar tudo</button>
+    </section>
+  </main>
+
+  <footer class="page-footer">
+    <p>
+      Os dois métodos supõem medidas independentes e dão o mesmo resultado quando o caso particular se aplica.
+      A incerteza final é arredondada para 1 algarismo significativo (2 se começar com 1).
+      <a href="https://www.fisica.ufmg.br/ciclo-basico/wp-content/uploads/sites/4/2022/04/Aula1_Eletro.pdf" target="_blank" rel="noopener">Material de referência (UFMG)</a> ·
+      <a href="https://github.com/rafaelos134/Stremilit-Propagacao-de-incerteza" target="_blank" rel="noopener">Código no GitHub</a>
+    </p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,14 @@
+{
+  "name": "propagacao-de-incerteza",
+  "version": "2.0.0",
+  "description": "Calculadora de propagação de incertezas (GitHub Pages)",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/",
+    "start": "npx --yes http-server@14.1.1 -c-1 -p 8080 ."
+  },
+  "devDependencies": {
+    "mathjs": "14.0.1"
+  }
+}
